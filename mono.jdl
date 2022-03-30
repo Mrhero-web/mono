@@ -1,15 +1,160 @@
-/** 用户 */
-entity AUser(sys_user) {
-    login String required unique /** 用户名 */
-	password String required minlength(60) maxlength(60)  /** 密码 */
+/** 用户表 */
+entity User(sys_user) {
+    /** 用户编号 */
+    userId Long required unique,
+    /** 用户状态 */
+    userStatus Status,
+    /** 用户名 */
+    loginName String required unique ,
+    /**用户密码 */
+	loginPassword String required minlength(60) maxlength(60)
 }
-/** 角色 */
+/** 用户和角色的状态 */
+enum Status{
+    /** 删除 */
+    DELETE,
+    /** 正常 */
+    NORMAL,
+    /** 停用 */
+    DISABLE
+}
+
+/** 角色表 */
 entity Role(sys_role) {
-    code String required unique /** 角色编码 */
-	name String required unique /** 角色名称 */
+    /** 角色编号 */
+    roleId Long required unique,
+    /** 角色名称 */
+	roleTypeName RoleName required ,
+	/** 角色状态 */
+	roleStatus Status,
+	/** 操作平台 */
+	webOrApp WebOrApp
 }
-/** 用户角色 */
+/**枚举类 */
+enum WebOrApp{
+	/** 电脑端 */
+    WEB,
+    /** 移动端 */
+    APP,
+    /** 移动端和电脑端 */
+    BOTH
+}
+/**枚举类 */
+enum RoleName{
+    /** 病人 */
+    PATIENT,
+    /** 护士 */
+    NURSE,
+    /** 治疗师 */
+    THERAPIST,
+    /** 教师 */
+    TEACHER,
+    /** 组长 */
+    GROUPLEADER,
+    /** 医生 */
+    DOCTOR,
+    /** 科室主任 */
+    DEPARTMENTMANAGER,
+    /** 管理员 */
+    ADMINISTRATOR,
+    /** 院领导 */
+    BOSS
+}
+/** 用户角色关系表 */
 entity UserRole(sys_user_role) {
-	userId Long required /** 用户ID */
-    roleCode String required /** 角色编码 */
+	userRoleId Long required unique,/** 用户角色关联ID,主键 */
+	userId Long required ,/** 用户ID */
+    roleId Long required /** 角色ID */
+}
+/**枚举类*/
+enum SStatus{
+    BUSY,
+    FREE
+}
+/**员工表*/
+entity Staff(Staff) {
+    /** 员工编号*/
+    staffId Long required unique,
+    /** 用户ID*/
+    userId Long required unique,
+    /** 姓名*/
+    name String required ,
+    /** 性别*/
+    gender String,
+    /** 学历*/
+    education String ,
+    /** 专业*/
+    major String,
+    /** 职称*/
+    title String ,
+    /** 电话号*/
+    phoneNum String,
+    /** 联系地址*/
+    address String,
+    /** 出生日期*/
+    birthday Instant,
+    /** 身份证号*/
+    idNum Long ,
+    /**所属科室*/
+    departmentNum String required ,
+    /** 员工状态*/
+    sStatus SStatus,
+    /** 政治面貌*/
+    politicalAffiliation String ,
+    /** 民族*/
+    nationality String ,
+    /** 小组ID*/
+    groupId Integer  ,
+    /** 是否住院系统导入*/
+    fromHospitalSystem Boolean required ,
+    /** 登录名*/
+    loginName String unique,
+    /** 登录密码*/
+    loginPassword String
+}
+/**病人表*/
+entity Patient{
+    /**诊疗编号*/
+    cureId Long required unique,
+    /**用户编号*/
+    userId  Long required unique,
+    /**住院编号*/
+    hospitalId Long,
+    /** 姓名*/
+    name String required ,
+    /** 性别*/
+    gender String,
+    /** 年龄*/
+    age Integer ,
+    /** 出生日期*/
+    birthday Instant ,
+    /** 身份证号*/
+    idNum Long required unique,
+    /** 电话号*/
+    phoneNumber String ,
+    /**入院日期*/
+    admissionDate Instant ,
+    /**入院科室*/
+    admissionDepartmentId Long  ,
+    /**住院天数*/
+    daysInHospital Integer ,
+    /**住院医师*/
+    hospitalPhysician String ,
+    /**诊疗技师*/
+    therapist String ,
+    /**入院方式*/
+    admissionMethod String,
+    /**现在科室*/
+    currentDepartmentId Long required,
+    /**病人类型*/
+    patientType PatientType,
+    /** 登录名*/
+    loginName String unique,
+    /** 登录密码*/
+    loginPassword String
+}
+/**病人类型*/
+enum PatientType{
+    ADULT,
+    CHILD
 }

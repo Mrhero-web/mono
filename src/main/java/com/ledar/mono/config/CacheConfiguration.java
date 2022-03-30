@@ -46,6 +46,9 @@ public class CacheConfiguration {
             createCache(cm, com.ledar.mono.domain.User.class.getName());
             createCache(cm, com.ledar.mono.domain.Role.class.getName());
             createCache(cm, com.ledar.mono.domain.UserRole.class.getName());
+            createCache(cm, com.ledar.mono.domain.AUser.class.getName());
+            createCache(cm, com.ledar.mono.domain.Staff.class.getName());
+            createCache(cm, com.ledar.mono.domain.Patient.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
